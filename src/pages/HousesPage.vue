@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col  py-3">
-        <h2>Cars</h2>
-        <CreateCarModal />
-        <button title="Open Create Car Form"
+      <div class="col py-3">
+        <h2>Houses</h2>
+        <CreateHouseModal />
+        <button title="Open Create House Form"
                 type="button"
                 class="btn btn-outline-success"
                 data-toggle="modal"
-                data-target="#new-car-form"
+                data-target="#new-house-form"
         >
           <i class="fas fa-plus" aria-hidden="true"></i>
         </button>
@@ -19,31 +19,31 @@
       <div v-if="state.loading">
         <i class="fas fa-spinner fa-spin"></i>
       </div>
-      <Car v-else v-for="car in state.cars" :key="car.id" :car="car" />
+      <House v-else v-for="house in state.houses" :key="house.id" :house="house" />
     </div>
   </div>
 </template>
 
 <script>
 import { computed, onMounted, reactive } from 'vue'
-import Car from '../components/CarComponent'
-import { carsService } from '../services/CarsService'
+import House from '../components/HouseComponent'
+import { housesService } from '../services/HousesService'
 import { AppState } from '../AppState'
-import CreateCarModal from '../components/CreateCarModal'
+import CreateHouseModal from '../components/CreateHouseModal'
 
 export default {
-  name: 'CarsPage',
+  name: 'HousesPage',
   setup() {
     const state = reactive({
       loading: true,
-      cars: computed(() => AppState.cars)
+      houses: computed(() => AppState.houses)
     })
 
     // This fires everytime this component is rendered to the Dom
     // similar to how we were using the 'constructor' of the controllers in MVC
     onMounted(async() => {
       try {
-        await carsService.getCars()
+        await housesService.getHouses()
         state.loading = false
       } catch (error) {
         console.error(error)
@@ -55,8 +55,8 @@ export default {
     }
   },
   components: {
-    Car,
-    CreateCarModal
+    House,
+    CreateHouseModal
   }
 }
 </script>
